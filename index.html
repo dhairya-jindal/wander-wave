@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderWave - Where Every Journey Writes a Story</title>
+    <!-- Fonts include Bangers for the tacky logo requirement -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Bangers&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Elegant Top Navigation -->
+    <header class="top-header">
+        <div class="elegant-logo">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M4 14C4 14 6 12 12 12C18 12 20 10 20 10M4 14C4 18 8 21 12 21C16 21 20 18 20 14M4 14C4 12 6 8 12 8C18 8 20 12 20 14M12 8C12 8 10 5 12 3C14 5 12 8 12 8Z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            WanderWave
+        </div>
+        <nav class="top-nav">
+            <a href="#about" class="top-nav-link" data-target="about">Philosophy</a>
+            <a href="#bali" class="top-nav-link" data-target="bali">Destinations</a>
+            <a href="#whyus" class="top-nav-link" data-target="whyus">Why Us</a>
+            <a href="#outro" class="top-nav-link cta" data-target="outro">Start Planning</a>
+        </nav>
+    </header>
+
+    <!-- Interactive Navigation -->
+    <nav class="side-nav">
+        <ul>
+            <li><a href="#intro" class="nav-dot active" data-target="intro" data-tooltip="Hero"></a></li>
+            <li><a href="#about" class="nav-dot" data-target="about" data-tooltip="Our Philosophy"></a></li>
+            <li><a href="#bali" class="nav-dot" data-target="bali" data-tooltip="Bali"></a></li>
+            <li><a href="#croatia" class="nav-dot" data-target="croatia" data-tooltip="Croatia"></a></li>
+            <li><a href="#maldives" class="nav-dot" data-target="maldives" data-tooltip="Maldives"></a></li>
+            <li><a href="#whyus" class="nav-dot" data-target="whyus" data-tooltip="Why Us"></a></li>
+            <li><a href="#outro" class="nav-dot" data-target="outro" data-tooltip="Start Planning"></a></li>
+        </ul>
+    </nav>
+    
+    <!-- Sky Backgrounds -->
+    <!-- Updated IDs to match the info.md content -->
+    <div class="sky-container">
+        <div class="sky-bg bg-intro active" id="sky-intro"></div>
+        <div class="sky-bg bg-about" id="sky-about"></div>
+        <div class="sky-bg bg-bali" id="sky-bali"></div>
+        <div class="sky-bg bg-croatia" id="sky-croatia"></div>
+        <div class="sky-bg bg-maldives" id="sky-maldives"></div>
+        <div class="sky-bg bg-whyus" id="sky-whyus"></div>
+        <div class="sky-bg bg-outro" id="sky-outro"></div>
+    </div>
+
+    <!-- Parallax Cloud Layers -->
+    <div class="parallax-container" id="parallax-container">
+        <div class="cloud-layer cloud-layer--distant" id="layer-distant"></div>
+        <div class="cloud-layer cloud-layer--mid" id="layer-mid"></div>
+    </div>
+
+    <!-- Story Sections based on info.md content -->
+    <main class="scroll-container">
+        <!-- 1. Hero Section -->
+        <section class="story-section" id="intro" data-id="intro">
+            <div class="content-card">
+                <h1 class="chapter-title">Established 2009</h1>
+                <h2 class="location">Where Every Journey Writes a Story</h2>
+                <p class="narrative">The best journeys are the ones designed around you, not a brochure.</p>
+                
+                <div class="stats-container">
+                    <div class="stat"><span>180+</span> Destinations</div>
+                    <div class="stat"><span>50K+</span> Journeys</div>
+                    <div class="stat"><span>15</span> Years</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. About Us -->
+        <section class="story-section" id="about" data-id="about">
+            <div class="content-card">
+                <div class="image-wrapper">
+                    <div class="image-placeholder img-about"></div>
+                </div>
+                <h2 class="location">Our Philosophy</h2>
+                <p class="narrative">Travel is the greatest teacher, healer, and connector on Earth. We partner with local guides, boutique properties, and sustainable communities to give you access to experiences that no algorithm can recommend.</p>
+            </div>
+        </section>
+
+        <!-- 3. Trending: Bali -->
+        <section class="story-section" id="bali" data-id="bali">
+            <div class="content-card">
+                <div class="image-wrapper">
+                    <div class="image-placeholder img-bali"></div>
+                </div>
+                <h2 class="location">Bali, Indonesia</h2>
+                <p class="narrative">"The most magical journey of our lives. Hyper-personalised from start to finish." - Indian Traveller</p>
+                <div class="price-tag">Starting from ₹65,000</div>
+            </div>
+        </section>
+
+        <!-- 4. Trending: Croatia -->
+        <section class="story-section" id="croatia" data-id="croatia">
+            <div class="content-card">
+                <div class="image-wrapper">
+                    <div class="image-placeholder img-croatia"></div>
+                </div>
+                <h2 class="location">Coastal Croatia</h2>
+                <p class="narrative">"A flawless European retreat tailored exactly to our pace through ancient cities." - Indian Traveller</p>
+                <div class="price-tag">Starting from ₹1,05,000</div>
+            </div>
+            <div class="particles petals"></div>
+        </section>
+
+        <!-- 5. Trending: Maldives -->
+        <section class="story-section" id="maldives" data-id="maldives">
+            <div class="content-card">
+                <div class="image-wrapper">
+                    <div class="image-placeholder img-maldives"></div>
+                </div>
+                <h2 class="location">Maldives Retreats</h2>
+                <p class="narrative">"Effortless luxury. Sustainable communities and crystalline waters made it perfect." - Indian Traveller</p>
+                <div class="price-tag">Starting from ₹1,20,000</div>
+            </div>
+            <div class="particles sands"></div>
+        </section>
+
+        <!-- 6. Why WanderWave -->
+        <section class="story-section" id="whyus" data-id="whyus">
+            <div class="content-card dark-card">
+                <h2 class="location" style="font-size: 3.5rem;">Why WanderWave</h2>
+                <p class="narrative" style="margin-bottom: 1.5rem;">Curators of experiences, not just trip bookers.</p>
+                <ul class="differentiators">
+                    <li>🌟 Expert Curation</li>
+                    <li>⚡ Instant Custom Quotes</li>
+                    <li>🌍 Global Local Network</li>
+                    <li>📱 Travel Concierge App</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 7. CTA & Footer -->
+        <section class="story-section" id="outro" data-id="outro">
+            <div class="content-card final-card" style="margin-bottom: 150px;">
+                <h2 class="location">Start Planning</h2>
+                <p class="narrative">Let us design your hyper-personalised itinerary. The world is waiting.</p>
+                <div class="rewind-btn" id="rewind-btn" style="margin-right: 1rem;">Ascend Again</div>
+                <div class="rewind-btn cta-btn" style="background: white; color: black; border-color: white;">Book Now</div>
+            </div>
+            <div class="particles stars"></div>
+
+            <footer class="real-footer">
+                <div class="footer-col">
+                    <h3>Explore</h3>
+                    <a href="#">Destinations</a>
+                    <a href="#">Itineraries</a>
+                    <a href="#">Travel Guarantee</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Company</h3>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Sustainability</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <a href="#">Contact</a>
+                    <a href="#">Concierge App</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </footer>
+        </section>
+    </main>
+
+    <!-- Foreground Parallax Layer -->
+    <div class="parallax-container" id="parallax-foreground">
+        <div class="cloud-layer cloud-layer--foreground" id="layer-foreground"></div>
+    </div>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="progress-container">
+        <div class="progress-line"></div>
+        <div class="progress-airplane" id="airplane">
+            <svg viewBox="0 0 24 24" fill="white" width="24" height="24">
+                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Continuous Horizontal Scroll updated with company info -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <!-- We will duplicate content to create gapless scroll -->
+            <span>180+ DESTINATIONS</span><span class="dot">•</span>
+            <span>SUSTAINABLE TRAVEL</span><span class="dot">•</span>
+            <span>HYPER-PERSONALISED</span><span class="dot">•</span>
+            <span>LOCAL-FIRST APPROACH</span><span class="dot">•</span>
+            <span>TRAVEL GUARANTEE</span><span class="dot">•</span>
+            
+            <span>180+ DESTINATIONS</span><span class="dot">•</span>
+            <span>SUSTAINABLE TRAVEL</span><span class="dot">•</span>
+            <span>HYPER-PERSONALISED</span><span class="dot">•</span>
+            <span>LOCAL-FIRST APPROACH</span><span class="dot">•</span>
+            <span>TRAVEL GUARANTEE</span><span class="dot">•</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
