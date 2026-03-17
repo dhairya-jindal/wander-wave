@@ -2,15 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WanderWave - Where Every Journey Writes a Story</title>
-    <!-- Fonts include Bangers for the tacky logo requirement -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Bangers&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WanderWave - Atlas of the Infinite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Cinzel+Decorative:wght@400;700&family=Space+Mono&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Three.js Setup -->
+    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+        }
+      }
+    </script>
 </head>
 <body>
+    <!-- 3D Globe Container -->
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay Systems -->
+    <div class="ui-overlay" id="ui-overlay">
+        <div class="coordinates" id="coordinates">48.8566° N, 2.3522° E</div>
+        <div class="altitude-meter">
+            <span>ALT</span>
+            <div class="alt-bar">
+                <div class="alt-fill" id="alt-fill"></div>
+            </div>
+            <span id="alt-text">40,000 FT</span>
+        </div>
+        <div class="compass" id="compass">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2L14 12L12 22L10 12L12 2Z" fill="currentColor" fill-opacity="0.3"/>
+            </svg>
+        </div>
+    </div>
+
     <!-- Elegant Top Navigation -->
-    <header class="top-header">
+    <header class="top-header" id="top-header">
         <div class="elegant-logo">
             <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M4 14C4 14 6 12 12 12C18 12 20 10 20 10M4 14C4 18 8 21 12 21C16 21 20 18 20 14M4 14C4 12 6 8 12 8C18 8 20 12 20 14M12 8C12 8 10 5 12 3C14 5 12 8 12 8Z" stroke-linecap="round" stroke-linejoin="round"/>
@@ -18,36 +48,66 @@
             WanderWave
         </div>
         <nav class="top-nav">
+            <a href="#space" class="top-nav-link" data-target="space">Orbit</a>
             <a href="#about" class="top-nav-link" data-target="about">Philosophy</a>
             <a href="#bali" class="top-nav-link" data-target="bali">Destinations</a>
-            <a href="#whyus" class="top-nav-link" data-target="whyus">Why Us</a>
             <a href="#outro" class="top-nav-link cta" data-target="outro">Start Planning</a>
         </nav>
     </header>
 
-    <!-- Interactive Navigation -->
+    <!-- Interactive Desktop Side Navigation -->
     <nav class="side-nav">
         <ul>
-            <li><a href="#intro" class="nav-dot active" data-target="intro" data-tooltip="Hero"></a></li>
-            <li><a href="#about" class="nav-dot" data-target="about" data-tooltip="Our Philosophy"></a></li>
+            <li><a href="#space" class="nav-dot active" data-target="space" data-tooltip="Orbit"></a></li>
+            <li><a href="#intro" class="nav-dot" data-target="intro" data-tooltip="Hero"></a></li>
+            <li><a href="#about" class="nav-dot" data-target="about" data-tooltip="Philosophy"></a></li>
             <li><a href="#bali" class="nav-dot" data-target="bali" data-tooltip="Bali"></a></li>
             <li><a href="#croatia" class="nav-dot" data-target="croatia" data-tooltip="Croatia"></a></li>
             <li><a href="#maldives" class="nav-dot" data-target="maldives" data-tooltip="Maldives"></a></li>
+            <li><a href="#underwater" class="nav-dot" data-target="underwater" data-tooltip="Bora Bora Dive"></a></li>
             <li><a href="#whyus" class="nav-dot" data-target="whyus" data-tooltip="Why Us"></a></li>
             <li><a href="#outro" class="nav-dot" data-target="outro" data-tooltip="Start Planning"></a></li>
         </ul>
     </nav>
     
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="mobile-bottom-nav">
+        <a href="#intro" class="bottom-nav-item active" data-target="intro">
+            <span class="icon">🏠</span>
+            <span class="label">Home</span>
+        </a>
+        <a href="#bali" class="bottom-nav-item" data-target="bali">
+            <span class="icon">🗺️</span>
+            <span class="label">Map</span>
+        </a>
+        <a href="#about" class="bottom-nav-item" data-target="about">
+            <span class="icon">📖</span>
+            <span class="label">Story</span>
+        </a>
+        <a href="#whyus" class="bottom-nav-item" data-target="whyus">
+            <span class="icon">⚙️</span>
+            <span class="label">Why Us</span>
+        </a>
+    </nav>
+
     <!-- Sky Backgrounds -->
-    <!-- Updated IDs to match the info.md content -->
     <div class="sky-container">
-        <div class="sky-bg bg-intro active" id="sky-intro"></div>
+        <div class="sky-bg bg-space active" id="sky-space">
+            <div class="starfield" id="starfield"></div>
+        </div>
+        <div class="sky-bg bg-intro" id="sky-intro"></div>
         <div class="sky-bg bg-about" id="sky-about"></div>
         <div class="sky-bg bg-bali" id="sky-bali"></div>
         <div class="sky-bg bg-croatia" id="sky-croatia"></div>
         <div class="sky-bg bg-maldives" id="sky-maldives"></div>
+        <div class="sky-bg bg-underwater" id="sky-underwater">
+            <div class="caustics"></div>
+            <div class="bubbles"></div>
+        </div>
         <div class="sky-bg bg-whyus" id="sky-whyus"></div>
-        <div class="sky-bg bg-outro" id="sky-outro"></div>
+        <div class="sky-bg bg-outro" id="sky-outro">
+            <div class="starfield" id="starfield-outro"></div>
+        </div>
     </div>
 
     <!-- Parallax Cloud Layers -->
@@ -56,117 +116,193 @@
         <div class="cloud-layer cloud-layer--mid" id="layer-mid"></div>
     </div>
 
-    <!-- Story Sections based on info.md content -->
+    <!-- Story Sections with 3D Interactive Cards -->
     <main class="scroll-container">
+        <!-- 0. Space Orbit -->
+        <section class="story-section perspective-wrapper" id="space" data-id="space" data-theme="space">
+            <div class="card-3d-container">
+                <div class="content-card hud-card interactive-card">
+                    <div class="card-glare"></div>
+                    <div class="layer-content layer-z-20">
+                        <p class="monospace-text glow-text">[ SYSTEM INITIALIZED ]</p>
+                        <h2 class="location cinematic-title">The Departure</h2>
+                        <p class="narrative">Every journey begins with the courage to leave the ground. Today, we leave the ordinary behind.</p>
+                        <p class="scroll-prompt monospace-text">Deploying atmospheric entry... Scroll to dive.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- 1. Hero Section -->
-        <section class="story-section" id="intro" data-id="intro">
-            <div class="content-card">
-                <h1 class="chapter-title">Established 2009</h1>
-                <h2 class="location">Where Every Journey Writes a Story</h2>
-                <p class="narrative">The best journeys are the ones designed around you, not a brochure.</p>
-                
-                <div class="stats-container">
-                    <div class="stat"><span>180+</span> Destinations</div>
-                    <div class="stat"><span>50K+</span> Journeys</div>
-                    <div class="stat"><span>15</span> Years</div>
+        <section class="story-section perspective-wrapper" id="intro" data-id="intro" data-theme="intro">
+            <div class="card-3d-container">
+                <div class="content-card interactive-card type-hero">
+                    <div class="card-glare"></div>
+                    <div class="layer-bg"></div>
+                    <div class="layer-content layer-z-20">
+                        <h1 class="chapter-title">Established 2009</h1>
+                        <h2 class="location cinematic-title">Where Every Journey<br>Writes a Story</h2>
+                        <p class="narrative">The best journeys are the ones designed around you, not a brochure.</p>
+                        
+                        <div class="stats-container layer-z-30">
+                            <div class="stat"><span>180+</span> Destinations</div>
+                            <div class="stat"><span>50K+</span> Journeys</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- 2. About Us -->
-        <section class="story-section" id="about" data-id="about">
-            <div class="content-card">
-                <div class="image-wrapper">
-                    <div class="image-placeholder img-about"></div>
+        <section class="story-section perspective-wrapper" id="about" data-id="about" data-theme="story">
+            <div class="card-3d-container">
+                <div class="content-card interactive-card type-story">
+                    <div class="card-glare"></div>
+                    <div class="layer-bg image-placeholder img-about"></div>
+                    <div class="layer-content layer-z-20">
+                        <div class="icon-3d layer-z-30">✨</div>
+                        <h2 class="location cinematic-title">Our Philosophy</h2>
+                        <p class="narrative">Travel is the greatest teacher, healer, and connector on Earth. We partner with local communities to give you access to experiences that no algorithm can recommend.</p>
+                    </div>
                 </div>
-                <h2 class="location">Our Philosophy</h2>
-                <p class="narrative">Travel is the greatest teacher, healer, and connector on Earth. We partner with local guides, boutique properties, and sustainable communities to give you access to experiences that no algorithm can recommend.</p>
             </div>
         </section>
 
         <!-- 3. Trending: Bali -->
-        <section class="story-section" id="bali" data-id="bali">
-            <div class="content-card">
-                <div class="image-wrapper">
-                    <div class="image-placeholder img-bali"></div>
+        <section class="story-section perspective-wrapper" id="bali" data-id="bali" data-theme="bali">
+            <div class="card-3d-container">
+                <div class="content-card interactive-card type-dest">
+                    <div class="card-glare"></div>
+                    <div class="layer-bg image-placeholder img-bali"></div>
+                    <div class="layer-content layer-z-20">
+                        <h2 class="location cinematic-title">Bali, Indonesia</h2>
+                        <h3 class="local-script layer-z-10">バリ島</h3>
+                        <p class="narrative">"The most magical journey of our lives. Hyper-personalised from start to finish."</p>
+                        
+                        <div class="card-actions layer-z-30">
+                            <button class="pill-btn visited tooltip-trigger" data-tooltip="Mark Visited"><span class="icon">✓</span></button>
+                            <button class="pill-btn explore">EXPLORE <span>→</span></button>
+                        </div>
+                    </div>
                 </div>
-                <h2 class="location">Bali, Indonesia</h2>
-                <p class="narrative">"The most magical journey of our lives. Hyper-personalised from start to finish." - Indian Traveller</p>
-                <div class="price-tag">Starting from ₹65,000</div>
             </div>
         </section>
 
         <!-- 4. Trending: Croatia -->
-        <section class="story-section" id="croatia" data-id="croatia">
-            <div class="content-card">
-                <div class="image-wrapper">
-                    <div class="image-placeholder img-croatia"></div>
+        <section class="story-section perspective-wrapper" id="croatia" data-id="croatia" data-theme="croatia">
+            <div class="card-3d-container">
+                <div class="content-card interactive-card type-dest">
+                    <div class="card-glare"></div>
+                    <div class="layer-bg image-placeholder img-croatia"></div>
+                    <div class="layer-content layer-z-20">
+                        <h2 class="location cinematic-title">Coastal Croatia</h2>
+                        <h3 class="local-script layer-z-10">Hrvatska</h3>
+                        <p class="narrative">"A flawless European retreat tailored exactly to our pace through ancient cities."</p>
+                        
+                        <div class="card-actions layer-z-30">
+                            <button class="pill-btn visited"><span class="icon">✓</span></button>
+                            <button class="pill-btn explore">EXPLORE <span>→</span></button>
+                        </div>
+                    </div>
                 </div>
-                <h2 class="location">Coastal Croatia</h2>
-                <p class="narrative">"A flawless European retreat tailored exactly to our pace through ancient cities." - Indian Traveller</p>
-                <div class="price-tag">Starting from ₹1,05,000</div>
             </div>
-            <div class="particles petals"></div>
         </section>
 
         <!-- 5. Trending: Maldives -->
-        <section class="story-section" id="maldives" data-id="maldives">
-            <div class="content-card">
-                <div class="image-wrapper">
-                    <div class="image-placeholder img-maldives"></div>
+        <section class="story-section perspective-wrapper" id="maldives" data-id="maldives" data-theme="maldives">
+            <div class="card-3d-container">
+                <div class="content-card interactive-card type-dest">
+                    <div class="card-glare"></div>
+                    <div class="layer-bg image-placeholder img-maldives"></div>
+                    <div class="layer-content layer-z-20">
+                        <h2 class="location cinematic-title">Maldives Retreats</h2>
+                        <h3 class="local-script layer-z-10">ދިވެހިރާއްޖެ</h3>
+                        <p class="narrative">"Effortless luxury. Sustainable communities and crystalline waters made it perfect."</p>
+                        
+                        <div class="card-actions layer-z-30">
+                            <button class="pill-btn visited"><span class="icon">✓</span></button>
+                            <button class="pill-btn explore">EXPLORE <span>→</span></button>
+                        </div>
+                    </div>
                 </div>
-                <h2 class="location">Maldives Retreats</h2>
-                <p class="narrative">"Effortless luxury. Sustainable communities and crystalline waters made it perfect." - Indian Traveller</p>
-                <div class="price-tag">Starting from ₹1,20,000</div>
             </div>
-            <div class="particles sands"></div>
+        </section>
+
+        <!-- NEW: Bora Bora Deep Dive (Underwater) -->
+        <section class="story-section perspective-wrapper" id="underwater" data-id="underwater" data-theme="underwater">
+            <div class="card-3d-container">
+                <div class="content-card interactive-card glass-aquatic">
+                    <div class="card-glare"></div>
+                    <div class="layer-bg aquatic-bg"></div>
+                    <div class="layer-content layer-z-20">
+                        <h2 class="location cinematic-title">Bora Bora</h2>
+                        <h3 class="chapter-title" style="color: #fff">Where The Ocean Breathes</h3>
+                        <p class="narrative">Descend beneath the surface. Crystal clear turquoise waters teeming with life.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- 6. Why WanderWave -->
-        <section class="story-section" id="whyus" data-id="whyus">
-            <div class="content-card dark-card">
-                <h2 class="location" style="font-size: 3.5rem;">Why WanderWave</h2>
-                <p class="narrative" style="margin-bottom: 1.5rem;">Curators of experiences, not just trip bookers.</p>
-                <ul class="differentiators">
-                    <li>🌟 Expert Curation</li>
-                    <li>⚡ Instant Custom Quotes</li>
-                    <li>🌍 Global Local Network</li>
-                    <li>📱 Travel Concierge App</li>
-                </ul>
+        <section class="story-section perspective-wrapper" id="whyus" data-id="whyus" data-theme="dark">
+            <div class="card-3d-container">
+                <div class="content-card interactive-card dark-card type-data">
+                    <div class="card-glare"></div>
+                    <div class="layer-bg"></div>
+                    <div class="layer-content layer-z-20">
+                        <h2 class="location cinematic-title" style="font-size: 3rem;">Why WanderWave</h2>
+                        <ul class="differentiators layer-z-10">
+                            <li><span class="emoji">🌟</span> Expert Curation</li>
+                            <li><span class="emoji">⚡</span> Instant Custom Quotes</li>
+                            <li><span class="emoji">🌍</span> Global Local Network</li>
+                            <li><span class="emoji">📱</span> Travel Concierge App</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- 7. CTA & Footer -->
-        <section class="story-section" id="outro" data-id="outro">
-            <div class="content-card final-card" style="margin-bottom: 150px;">
-                <h2 class="location">Start Planning</h2>
-                <p class="narrative">Let us design your hyper-personalised itinerary. The world is waiting.</p>
-                <div class="rewind-btn" id="rewind-btn" style="margin-right: 1rem;">Ascend Again</div>
-                <div class="rewind-btn cta-btn" style="background: white; color: black; border-color: white;">Book Now</div>
+        <section class="story-section perspective-wrapper" id="outro" data-id="outro" data-theme="outro">
+            <div class="card-3d-container" style="margin-bottom: 50px;">
+                <div class="content-card interactive-card final-card">
+                    <div class="card-glare"></div>
+                    <div class="layer-content layer-z-20">
+                        <h2 class="location cinematic-title">The Journey Continues</h2>
+                        <p class="narrative">Let us design your hyper-personalised itinerary. The world is waiting.</p>
+                        <div class="card-actions layer-z-30" style="justify-content: center; margin-top: 2rem;">
+                            <div class="rewind-btn" id="rewind-btn">Back to Orbit</div>
+                            <div class="cta-btn">Book Now</div>
+                        </div>
+                    </div>
             </div>
-            <div class="particles stars"></div>
+        </section>
 
-            <footer class="real-footer">
-                <div class="footer-col">
-                    <h3>Explore</h3>
-                    <a href="#">Destinations</a>
-                    <a href="#">Itineraries</a>
-                    <a href="#">Travel Guarantee</a>
+        <!-- Formal Footer -->
+        <footer class="real-footer">
+            <div class="footer-marquee-container">
+                    <div class="footer-marquee-content">
+                        <span>WHERE EVERY JOURNEY WRITES A STORY</span><span class="dot">✦</span>
+                        <span>ATLAS OF THE INFINITE</span><span class="dot">✦</span>
+                        <span>WHERE EVERY JOURNEY WRITES A STORY</span><span class="dot">✦</span>
+                        <span>ATLAS OF THE INFINITE</span><span class="dot">✦</span>
+                        <span>WHERE EVERY JOURNEY WRITES A STORY</span><span class="dot">✦</span>
+                        <span>ATLAS OF THE INFINITE</span><span class="dot">✦</span>
+                    </div>
                 </div>
-                <div class="footer-col">
-                    <h3>Company</h3>
-                    <a href="#">About Us</a>
-                    <a href="#">Careers</a>
-                    <a href="#">Sustainability</a>
-                </div>
-                <div class="footer-col">
-                    <h3>Support</h3>
-                    <a href="#">Contact</a>
-                    <a href="#">Concierge App</a>
-                    <a href="#">Privacy Policy</a>
+                <div class="footer-links-grid">
+                    <div class="footer-col">
+                        <h3 class="elegant-footer-heading">Explore</h3>
+                        <a href="#">Destinations</a>
+                        <a href="#">Itineraries</a>
+                    </div>
+                    <div class="footer-col">
+                        <h3 class="elegant-footer-heading">Company</h3>
+                        <a href="#">About Us</a>
+                        <a href="#">Sustainability</a>
+                    </div>
                 </div>
             </footer>
-        </section>
     </main>
 
     <!-- Foreground Parallax Layer -->
@@ -184,24 +320,23 @@
         </div>
     </div>
 
-    <!-- Continuous Horizontal Scroll updated with company info -->
+    <!-- Continuous Horizontal Scroll -->
     <div class="marquee-container">
         <div class="marquee-content">
-            <!-- We will duplicate content to create gapless scroll -->
             <span>180+ DESTINATIONS</span><span class="dot">•</span>
             <span>SUSTAINABLE TRAVEL</span><span class="dot">•</span>
             <span>HYPER-PERSONALISED</span><span class="dot">•</span>
             <span>LOCAL-FIRST APPROACH</span><span class="dot">•</span>
-            <span>TRAVEL GUARANTEE</span><span class="dot">•</span>
-            
             <span>180+ DESTINATIONS</span><span class="dot">•</span>
             <span>SUSTAINABLE TRAVEL</span><span class="dot">•</span>
             <span>HYPER-PERSONALISED</span><span class="dot">•</span>
             <span>LOCAL-FIRST APPROACH</span><span class="dot">•</span>
-            <span>TRAVEL GUARANTEE</span><span class="dot">•</span>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Ripple Container -->
+    <div id="ripple-container"></div>
+
+    <script type="module" src="script.js"></script>
 </body>
 </html>
