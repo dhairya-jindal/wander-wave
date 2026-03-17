@@ -1,0 +1,99 @@
+/* Atlas Odyssey Scope */
+#atlas-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 10000; background: rgba(5, 5, 10, 0.85);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    display: flex; opacity: 0; pointer-events: none;
+    transition: opacity 0.4s ease;
+    font-family: var(--font-body, sans-serif);
+}
+
+#atlas-modal.active {
+    opacity: 1; pointer-events: all;
+}
+
+#atlas-modal-close {
+    position: absolute; top: 20px; right: 20px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+    color: #fff; width: 44px; height: 44px; border-radius: 50%;
+    font-size: 1.5rem; cursor: pointer; z-index: 10010;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+}
+#atlas-modal-close:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+
+.atlas-layout { display: flex; width: 100%; height: 100%; }
+
+.atlas-map-container { flex: 1; height: 100%; position: relative; }
+#atlas-map { width: 100%; height: 100%; background: #111; }
+
+.atlas-sidebar {
+    width: 400px; height: 100%; background: rgba(20, 20, 25, 0.9);
+    border-left: 1px solid rgba(255, 255, 255, 0.1); display: flex;
+    flex-direction: column; padding: 2rem; overflow-y: auto;
+    color: #fff;
+}
+
+/* Sidebar Sections */
+.atlas-title { font-family: var(--font-heading, serif); font-size: 2rem; color: #f5af19; margin-bottom: 0.5rem; }
+.atlas-subtitle { font-size: 1rem; color: #aaa; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; }
+
+.atlas-quest {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 1rem; margin-bottom: 1rem;
+    transition: all 0.3s;
+}
+.atlas-quest.completed { border-color: #f5af19; background: rgba(245, 175, 25, 0.1); }
+.atlas-quest-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+.atlas-quest-title { font-weight: bold; font-size: 1.1rem; }
+.atlas-quest-type { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #f5af19; border: 1px solid #f5af19; padding: 2px 6px; border-radius: 4px; }
+.atlas-quest-desc { font-size: 0.9rem; color: #ccc; margin-bottom: 1rem; }
+.atlas-quest-btn {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: #fff;
+    padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: 0.2s;
+    width: 100%;
+}
+.atlas-quest-btn:hover { background: rgba(255,255,255,0.2); }
+.atlas-quest.completed .atlas-quest-btn { display: none; }
+.atlas-quest-done { display: none; color: #f5af19; font-weight: bold; font-size: 0.9rem; }
+.atlas-quest.completed .atlas-quest-done { display: block; text-align: center; }
+
+/* Memory Fragments */
+.atlas-memory-btn {
+    background: linear-gradient(45deg, #1fa2ff, #12d8fa, #a6ffcb); color: #000;
+    border: none; padding: 0.8rem 1.5rem; border-radius: 30px; font-weight: bold;
+    cursor: pointer; width: 100%; margin-top: 1rem; transition: transform 0.2s;
+    display: none; /* Shown after all quests or quest completion */
+}
+.atlas-memory-btn:hover { transform: scale(1.05); }
+
+/* Story View */
+.atlas-story-panel {
+    margin-top: 2rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(245, 175, 25, 0.3);
+    padding: 1.5rem; border-radius: 12px; font-style: italic; color: rgba(255,255,255,0.9);
+    display: none; line-height: 1.6;
+}
+
+/* Injected Card Elements */
+.atlas-badge {
+    position: absolute; top: 15px; right: 15px;
+    background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px; padding: 5px 12px; font-size: 0.8rem;
+    font-weight: bold; color: #fff;
+    backdrop-filter: blur(5px); display: flex; align-items: center; gap: 5px;
+    z-index: 40; pointer-events: none;
+    transform: translateZ(35px); /* match 3D layer-z-30 */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+.atlas-badge.bronze { border-color: #cd7f32; color: #cd7f32; }
+.atlas-badge.silver { border-color: #c0c0c0; color: #c0c0c0; }
+.atlas-badge.gold { border-color: #ffd700; color: #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+
+.pill-btn.atlas-start-btn { flex: 1; border-color: #f5af19; color: #f5af19; background: rgba(245, 175, 25, 0.1); }
+.pill-btn.atlas-start-btn:hover { background: rgba(245, 175, 25, 0.2); }
+
+@media (max-width: 768px) {
+    .atlas-layout { flex-direction: column; }
+    .atlas-map-container { height: 40vh; flex: none; }
+    .atlas-sidebar { width: 100%; height: 60vh; border-left: none; border-top: 1px solid rgba(255,255,255,0.1); }
+}

@@ -1,0 +1,104 @@
+/* Flight Game Modal System */
+#flight-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 20000; background: rgba(0, 0, 0, 0.95);
+    display: flex; opacity: 0; pointer-events: none;
+    transition: opacity 0.5s ease;
+    font-family: var(--font-body, sans-serif);
+    overflow: hidden;
+}
+
+#flight-overlay.active {
+    opacity: 1; pointer-events: all;
+}
+
+#flight-close {
+    position: absolute; top: 20px; left: 20px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+    color: #fff; width: 44px; height: 44px; border-radius: 50%;
+    font-size: 1.5rem; cursor: pointer; z-index: 20020;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+}
+#flight-close:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+
+/* Layout */
+.flight-game-area {
+    flex: 1; position: relative; height: 100%;
+}
+#flight-canvas {
+    width: 100%; height: 100%; display: block;
+}
+
+/* UI Overlays on Game */
+#flight-score {
+    position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-heading, serif); font-size: 3rem; color: #fff;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.8); z-index: 20010; font-weight: bold;
+}
+#flight-start-msg {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 1.5rem; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.5); padding: 1rem 2rem; border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
+    z-index: 20010; cursor: pointer; text-align: center;
+}
+
+/* Interactive Map Layer (Overlays Canvas dynamically) */
+#flight-map-layer {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80') center/cover;
+    z-index: 10; opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
+}
+#flight-map-layer.active { opacity: 0.4; } /* Shows under the game mildly, or completely opaque if needed */
+.map-pin {
+    position: absolute; width: 20px; height: 20px; border-radius: 50%;
+    transform: translate(-50%, -50%); box-shadow: 0 0 15px currentColor;
+    border: 2px solid #fff; opacity: 0; transition: opacity 0.5s ease, transform 0.5s;
+}
+.map-pin.green { background: #00ff88; color: #00ff88; }
+.map-pin.red { background: #ff3333; color: #ff3333; }
+.map-pin.visible { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+
+/* Sidebar progressive info panel */
+.flight-sidebar {
+    width: 400px; height: 100%; background: rgba(15, 15, 20, 0.95);
+    border-left: 1px solid rgba(255, 255, 255, 0.1); 
+    display: flex; flex-direction: column; padding: 2rem;
+    color: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 20015;
+}
+.flight-sidebar.open { transform: translateX(0); }
+
+.flight-dest-title { font-family: var(--font-heading, serif); font-size: 2.2rem; color: #f5af19; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; }
+
+/* Discovery Cards */
+.discovery-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem;
+    opacity: 0; transform: translateY(20px); transition: all 0.5s ease;
+    display: none;
+}
+.discovery-card.revealed { opacity: 1; transform: translateY(0); display: block; }
+
+.discovery-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem; }
+.discovery-icon { font-size: 1.5rem; }
+.discovery-title { font-weight: bold; font-size: 1.2rem; color: #fff; }
+.discovery-body { font-size: 0.95rem; color: #ccc; line-height: 1.5; }
+
+/* Control panel for pausing/resume */
+#flight-resume-btn {
+    margin-top: auto; background: linear-gradient(45deg, #f5af19, #f12711);
+    color: #fff; border: none; padding: 1rem; border-radius: 30px;
+    font-weight: bold; font-size: 1.1rem; cursor: pointer; text-align: center;
+    box-shadow: 0 4px 15px rgba(245, 175, 25, 0.4); display: none;
+}
+#flight-resume-btn:hover { transform: scale(1.02); }
+
+@media (max-width: 768px) {
+    #flight-overlay { flex-direction: column; }
+    .flight-game-area { height: 60vh; flex: none; }
+    .flight-sidebar { width: 100%; height: 40vh; transform: translateY(100%); border-left: none; border-top: 1px solid rgba(255,255,255,0.1); overflow-y: auto; }
+    .flight-sidebar.open { transform: translateY(0); }
+}
