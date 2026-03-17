@@ -64,10 +64,13 @@
 
 /* Inject an "Open Map" button style on cards */
 .pill-btn.map-open-btn {
-    flex: 1;
+    width: 100%;
+    justify-content: center;
     background: rgba(0, 255, 136, 0.1);
     border-color: #00ff88;
     color: #00ff88;
+    font-size: 1rem;
+    letter-spacing: 2px;
 }
 .pill-btn.map-open-btn:hover { background: rgba(0, 255, 136, 0.2); }
 

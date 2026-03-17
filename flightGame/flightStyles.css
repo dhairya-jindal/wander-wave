@@ -1,104 +1,148 @@
-/* Flight Game Modal System */
-#flight-overlay {
+/* ────────────────────────────────────────────
+   FLAPPY PASSENGER GAME — Full Overlay Styles
+   ──────────────────────────────────────────── */
+
+/* Game Overlay */
+#fp-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 20000; background: rgba(0, 0, 0, 0.95);
-    display: flex; opacity: 0; pointer-events: none;
-    transition: opacity 0.5s ease;
-    font-family: var(--font-body, sans-serif);
+    z-index: 30000;
+    display: flex; flex-direction: column;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.45s ease;
+    font-family: var(--font-body, 'Inter', sans-serif);
     overflow: hidden;
 }
+#fp-overlay.active { opacity: 1; pointer-events: all; }
 
-#flight-overlay.active {
-    opacity: 1; pointer-events: all;
+/* Sky canvas fills full width */
+#fp-canvas { display: block; width: 100%; height: 100%; position: absolute; inset: 0; }
+
+/* Header bar */
+#fp-header {
+    position: absolute; top: 0; left: 0; width: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+    z-index: 10;
+    pointer-events: none;
 }
+#fp-dest-name {
+    font-family: var(--font-heading, serif); font-size: 1.6rem;
+    color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+#fp-score-box {
+    display: flex; align-items: center; gap: 1.4rem;
+}
+.fp-stat {
+    background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(6px); border-radius: 20px;
+    padding: 0.35rem 1rem; color: #fff; font-size: 0.9rem;
+}
+.fp-stat strong { color: #f5af19; font-weight: 700; }
 
-#flight-close {
-    position: absolute; top: 20px; left: 20px;
-    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+#fp-close {
+    position: absolute; top: 16px; right: 16px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25);
     color: #fff; width: 44px; height: 44px; border-radius: 50%;
-    font-size: 1.5rem; cursor: pointer; z-index: 20020;
+    font-size: 1.4rem; cursor: pointer; z-index: 20;
     display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
+    transition: all 0.2s; pointer-events: all;
 }
-#flight-close:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+#fp-close:hover { background: rgba(255,255,255,0.25); transform: scale(1.1); }
 
-/* Layout */
-.flight-game-area {
-    flex: 1; position: relative; height: 100%;
+/* Centre message card */
+#fp-msg {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(10, 10, 18, 0.78);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(14px);
+    border-radius: 20px; padding: 2rem 2.5rem;
+    color: #fff; text-align: center;
+    min-width: 300px; max-width: 420px;
+    z-index: 15; transition: opacity 0.3s;
 }
-#flight-canvas {
-    width: 100%; height: 100%; display: block;
-}
+#fp-msg h2 { font-family: var(--font-heading, serif); font-size: 2rem; color: #f5af19; margin-bottom: 0.5rem; }
+#fp-msg p { font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.85); margin-bottom: 1.2rem; }
+#fp-msg .fp-mode-icon { font-size: 3rem; margin-bottom: 0.5rem; display: block; }
+#fp-tap-hint { font-size: 0.85rem; opacity: 0.65; animation: fpBlink 1.2s infinite; }
+@keyframes fpBlink { 0%,100%{opacity:0.4} 50%{opacity:1} }
 
-/* UI Overlays on Game */
-#flight-score {
-    position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
-    font-family: var(--font-heading, serif); font-size: 3rem; color: #fff;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.8); z-index: 20010; font-weight: bold;
+/* Progressive insight panel — slides in from right */
+#fp-insight-panel {
+    position: absolute; top: 0; right: 0; height: 100%;
+    width: 360px; max-width: 90vw;
+    background: rgba(10, 10, 18, 0.92); backdrop-filter: blur(18px);
+    border-left: 1px solid rgba(255,255,255,0.1);
+    display: flex; flex-direction: column; padding: 2rem 1.6rem 1.6rem;
+    color: #fff; overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 12;
 }
-#flight-start-msg {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    font-size: 1.5rem; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    background: rgba(0,0,0,0.5); padding: 1rem 2rem; border-radius: 30px;
-    border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
-    z-index: 20010; cursor: pointer; text-align: center;
-}
+#fp-insight-panel.open { transform: translateX(0); }
 
-/* Interactive Map Layer (Overlays Canvas dynamically) */
-#flight-map-layer {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80') center/cover;
-    z-index: 10; opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
-}
-#flight-map-layer.active { opacity: 0.4; } /* Shows under the game mildly, or completely opaque if needed */
-.map-pin {
-    position: absolute; width: 20px; height: 20px; border-radius: 50%;
-    transform: translate(-50%, -50%); box-shadow: 0 0 15px currentColor;
-    border: 2px solid #fff; opacity: 0; transition: opacity 0.5s ease, transform 0.5s;
-}
-.map-pin.green { background: #00ff88; color: #00ff88; }
-.map-pin.red { background: #ff3333; color: #ff3333; }
-.map-pin.visible { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+.fp-panel-title { font-family: var(--font-heading, serif); font-size: 1.8rem; color: #f5af19; margin-bottom: 0.3rem; }
+.fp-panel-sub { font-size: 0.85rem; color: #aaa; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem; }
 
-/* Sidebar progressive info panel */
-.flight-sidebar {
-    width: 400px; height: 100%; background: rgba(15, 15, 20, 0.95);
-    border-left: 1px solid rgba(255, 255, 255, 0.1); 
-    display: flex; flex-direction: column; padding: 2rem;
-    color: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-    transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-    z-index: 20015;
-}
-.flight-sidebar.open { transform: translateX(0); }
-
-.flight-dest-title { font-family: var(--font-heading, serif); font-size: 2.2rem; color: #f5af19; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; }
-
-/* Discovery Cards */
-.discovery-card {
+.fp-card {
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem;
-    opacity: 0; transform: translateY(20px); transition: all 0.5s ease;
+    border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 0.9rem;
+    opacity: 0; transform: translateX(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
     display: none;
 }
-.discovery-card.revealed { opacity: 1; transform: translateY(0); display: block; }
+.fp-card.in { opacity: 1; transform: translateX(0); display: block; }
+.fp-card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem; }
+.fp-card-icon { font-size: 1.4rem; }
+.fp-card-title { font-weight: 700; font-size: 1rem; }
+.fp-card-body { font-size: 0.88rem; color: #ccc; line-height: 1.55; }
 
-.discovery-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem; }
-.discovery-icon { font-size: 1.5rem; }
-.discovery-title { font-weight: bold; font-size: 1.2rem; color: #fff; }
-.discovery-body { font-size: 0.95rem; color: #ccc; line-height: 1.5; }
-
-/* Control panel for pausing/resume */
-#flight-resume-btn {
-    margin-top: auto; background: linear-gradient(45deg, #f5af19, #f12711);
-    color: #fff; border: none; padding: 1rem; border-radius: 30px;
-    font-weight: bold; font-size: 1.1rem; cursor: pointer; text-align: center;
-    box-shadow: 0 4px 15px rgba(245, 175, 25, 0.4); display: none;
+/* Transport mode badge strip */
+.fp-mode-strip {
+    display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;
 }
-#flight-resume-btn:hover { transform: scale(1.02); }
+.fp-mode-badge {
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px; padding: 0.3rem 0.8rem;
+    font-size: 0.75rem; color: rgba(255,255,255,0.7); letter-spacing: 0.5px;
+}
+.fp-mode-badge.active { border-color: #f5af19; color: #f5af19; background: rgba(245,175,25,0.1); }
+
+#fp-resume-btn {
+    margin-top: auto; background: linear-gradient(135deg, #f5af19, #f12711);
+    color: #fff; border: none; padding: 0.9rem; border-radius: 30px;
+    font-weight: 700; font-size: 1rem; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(245,175,25,0.35);
+    transition: transform 0.2s;
+}
+#fp-resume-btn:hover { transform: scale(1.03); }
+
+/* ── Card button ── */
+.pill-btn.fp-play-btn {
+    flex: 1;
+    background: rgba(255, 150, 0, 0.12);
+    border-color: #f5af19;
+    color: #f5af19;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.pill-btn.fp-play-btn:hover { background: rgba(245, 175, 25, 0.22); }
+
+/* High-score badge on cards */
+.fp-hs-badge {
+    position: absolute; bottom: 15px; right: 15px;
+    background: rgba(0,0,0,0.55); border: 1px solid rgba(245,175,25,0.4);
+    border-radius: 16px; padding: 4px 10px;
+    font-size: 0.75rem; color: #f5af19; font-weight: 700;
+    backdrop-filter: blur(5px); z-index: 40;
+    transform: translateZ(35px); display: none;
+}
+.fp-hs-badge.visible { display: block; }
 
 @media (max-width: 768px) {
-    #flight-overlay { flex-direction: column; }
-    .flight-game-area { height: 60vh; flex: none; }
-    .flight-sidebar { width: 100%; height: 40vh; transform: translateY(100%); border-left: none; border-top: 1px solid rgba(255,255,255,0.1); overflow-y: auto; }
-    .flight-sidebar.open { transform: translateY(0); }
+    #fp-insight-panel { width: 100%; height: 55%; top: auto; bottom: 0; right: 0;
+        border-left: none; border-top: 1px solid rgba(255,255,255,0.1);
+        transform: translateY(100%); }
+    #fp-insight-panel.open { transform: translateY(0); }
 }
